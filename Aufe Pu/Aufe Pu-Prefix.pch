@@ -1,0 +1,16 @@
+//
+//  Aufe Pu-Prefix.pch
+//  Aufe Pu
+//
+//  Created by Dx on 16/10/23.
+//  Copyright © 2016年 Dx. All rights reserved.
+//
+
+#ifndef Aufe_Pu_Prefix_pch
+#define Aufe_Pu_Prefix_pch
+#import <tingyunApp/NBSAppAgent.h>
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* Aufe_Pu_Prefix_pch */

@@ -1,0 +1,6 @@
+framework module Pods_Aufe_PuUITests {
+  umbrella header "Pods-Aufe PuUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

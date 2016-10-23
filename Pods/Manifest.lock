@@ -1,0 +1,64 @@
+PODS:
+  - Alamofire (4.0.1)
+  - DZNEmptyDataSet (1.8.1)
+  - ESPullToRefresh (2.1)
+  - HYBImageCliped (2.0.0)
+  - Ji (2.0.0):
+    - Ji/Ji (= 2.0.0)
+  - Ji/Ji (2.0.0):
+    - Ji/Ji-libxml
+  - Ji/Ji-libxml (2.0.0)
+  - MBProgressHUD (1.0.0)
+  - RKDropdownAlert (0.3.0)
+  - swiftScan (1.0.8)
+  - SwiftyJSON (3.1.1)
+  - tingyunApp (2.4.1)
+  - YYCache (1.0.4)
+  - YYImage (1.0.4):
+    - YYImage/Core (= 1.0.4)
+  - YYImage/Core (1.0.4)
+  - YYWebImage (1.0.5):
+    - YYCache
+    - YYImage
+
+DEPENDENCIES:
+  - Alamofire
+  - DZNEmptyDataSet
+  - ESPullToRefresh
+  - HYBImageCliped (~> 2.0.0)
+  - Ji (~> 2.0.0)
+  - MBProgressHUD (~> 1.0.0)
+  - RKDropdownAlert
+  - swiftScan (from `https://github.com/CNKCQ/swiftScan.git`, branch `Swift3.0`)
+  - SwiftyJSON
+  - tingyunApp
+  - YYWebImage
+
+EXTERNAL SOURCES:
+  swiftScan:
+    :branch: Swift3.0
+    :git: https://github.com/CNKCQ/swiftScan.git
+
+CHECKOUT OPTIONS:
+  swiftScan:
+    :commit: fa41b99a893f8201bb2d3a1ef62da2e2c6bbc43b
+    :git: https://github.com/CNKCQ/swiftScan.git
+
+SPEC CHECKSUMS:
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  ESPullToRefresh: bb9e156053af3f7f8829c125b27ce00066372e30
+  HYBImageCliped: e660afad3daa5702c3afcaa2b6e9dc34497c333e
+  Ji: 79e11b5256ee809f9f7e51dc7de2059e35adf7a6
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  RKDropdownAlert: f4b3364c251829ad439dc666836a1f2dad26f4c7
+  swiftScan: 2dc76303bc7c2dcb7bde9c539f9bd6a7520abc8e
+  SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
+  tingyunApp: bf9074313164f2b3595b5c2b422c8159cee03a58
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+  YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
+  YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
+
+PODFILE CHECKSUM: 39d2ae589a72431b983f5d5c6c4722bc6315f398
+
+COCOAPODS: 1.1.0.beta.2
