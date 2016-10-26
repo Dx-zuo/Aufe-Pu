@@ -17,6 +17,8 @@ class WebViewController: UIViewController,WKNavigationDelegate{
     var cookieValue = "Value"
     var cookiePath = "/"
     var cookieVersion = 0
+    var progBar = UIProgressView()
+
     var webConfig:WKWebViewConfiguration {
         get {
             // Create WKWebViewConfiguration instance
@@ -56,6 +58,30 @@ class WebViewController: UIViewController,WKNavigationDelegate{
             
             self.webview.load(request as URLRequest)
             
+        }
+
+        progBar = UIProgressView(frame: CGRect(x: 0, y: (self.navigationController?.navigationBar.frame.maxY)!, width: self.view.frame.width, height: 30))
+        progBar.progress = 0.0
+        progBar.tintColor = UIColor.red
+        self.webview.addSubview(progBar)
+        self.webview.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
+
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        webview.removeObserver(self, forKeyPath: "estimatedProgress")
+    }
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            self.progBar.alpha = 1.0
+            progBar.setProgress(Float(webview.estimatedProgress), animated: true)
+            //进度条的值最大为1.0
+            if(self.webview.estimatedProgress >= 1.0) {
+                UIView.animate(withDuration: 0.3, delay: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
+                    self.progBar.alpha = 0.0
+                    }, completion: { (finished:Bool) -> Void in
+                        self.progBar.progress = 0
+                })
+            }
         }
     }
 

@@ -24,7 +24,7 @@ struct Story  {
     let Remmum         : String
 }
 
-class HomeTableViewController: UITableViewController,UITextFieldDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
+class HomeTableViewController: UITableViewController,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     
 
     let PostCellIdentifier = "HomeCell"
@@ -40,11 +40,6 @@ class HomeTableViewController: UITableViewController,UITextFieldDelegate,DZNEmpt
     var stories: [Story]! = []
 
     @IBOutlet weak var Segmented: UISegmentedControl!
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        retrievingStories = false
-
-    }
 
     
     
@@ -61,11 +56,7 @@ class HomeTableViewController: UITableViewController,UITextFieldDelegate,DZNEmpt
             }
             
         }
-        let botton = UIBarButtonItem()
-        botton.title = "你好"
-        botton.style = .done
-        
-        self.navigationItem.setLeftBarButton(botton, animated: true)
+
     }
     func configureUI() {
         tableView.emptyDataSetSource = self

@@ -77,7 +77,7 @@ open class LBXScanWrapper: NSObject,AVCaptureMetadataOutputObjectsDelegate {
         
         // Output
         output = AVCaptureMetadataOutput()
-        
+        //isCaptureImg
         isNeedCaptureImage = isCaptureImg
         
         stillImageOutput = AVCaptureStillImageOutput();
@@ -592,12 +592,11 @@ open class LBXScanWrapper: NSObject,AVCaptureMetadataOutputObjectsDelegate {
     @param logoSize  logo图像尺寸
     @return 加Logo的图像
     */
-    static open func addImageLogo(srcImg:UIImage,logoImg:UIImage,logoSize:CGSize )->UIImage
+    static open func addImageLogo(srcImg:UIImage,logoImg:UIImage?,logoSize:CGSize )->UIImage
     {
         UIGraphicsBeginImageContext(srcImg.size);
         srcImg.draw(in: CGRect(x: 0, y: 0, width: srcImg.size.width, height: srcImg.size.height))
         let rect = CGRect(x: srcImg.size.width/2 - logoSize.width/2, y: srcImg.size.height/2-logoSize.height/2, width:logoSize.width, height: logoSize.height);
-        logoImg.draw(in: rect)
         let resultingImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return resultingImage!;

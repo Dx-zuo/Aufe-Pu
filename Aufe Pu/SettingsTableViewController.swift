@@ -21,10 +21,10 @@ class SettingsTableViewController: UITableViewController {
         let memoryCache = cache?.memoryCache
         var num = (JSON(diskCache?.totalCost()).floatValue + JSON(memoryCache?.totalCost).floatValue + JSON(diskCache?.totalCount()).floatValue + JSON(memoryCache?.totalCount).floatValue)
         guard  num != 0 else {
-            cacheLabel.text = "00.0 M"
+            cacheLabel.text = "00.00 KB"
             return
         }
-        cacheLabel.text = "\(NSString(string: JSON(num/1024/1024).stringValue).substring(to: 3)) M"
+        cacheLabel.text = "\(NSString(string: JSON(num/1024/1024).stringValue).substring(to: 4)) KB"
         print("\(cache?.diskCache.totalCost())  \(cache?.diskCache.totalCount())  \(cache?.memoryCache.totalCost)  \(cache?.memoryCache.totalCount) ")
     }
 

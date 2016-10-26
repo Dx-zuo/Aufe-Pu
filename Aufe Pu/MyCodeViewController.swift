@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 import RKDropdownAlert
-
+import AES256CBC
 
 class MyCodeViewController: UIViewController {
 
@@ -24,27 +24,29 @@ class MyCodeViewController: UIViewController {
     var tView = UIView()
     var tImgView = UIImageView()
     
-    
+    var textlabel = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
         self.view.backgroundColor = UIColor.white
-        
+        let right = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(alert))
+         self.navigationItem.rightBarButtonItem = right
         drawCodeShowView()
         if UserDefaults.standard.bool(forKey: "QR1") {
             getuserid()
-
+            
         }else{
             createQR1(codeString: JSON(UserDefaults.standard.object(forKey: "QR1")).stringValue)
-
+            
         }
+    }
+    func alert()  {
+            RKDropdownAlert.title("", message: "这个二维码无时间限制  但只能使用小助手扫码使用")
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+
 
     }
     
@@ -84,7 +86,9 @@ class MyCodeViewController: UIViewController {
         tImgView.bounds = CGRect(x: 0, y: 0, width: tView.frame.width-12, height: tView.frame.height-12);
         tImgView.center = CGPoint(x: tView.frame.width/2, y: tView.frame.height/2);
         tView .addSubview(tImgView)
-        
+
+
+
     }
     func getuserid() {
         var hud = MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -110,7 +114,7 @@ class MyCodeViewController: UIViewController {
                 let doc = JSON(data)["results"].first?.1.dictionaryObject?["userid"]
                 let codeString = JSON(doc).stringValue
 
-                let aes = try? SwKeyConvert.PrivateKey.encryptPEM(codeString, passphrase: "R8T2bG4P2qs56btTPDeB29e52I6GMzAB", mode: .aes256CBC)
+                let aes = AES256CBC.encryptString(codeString, password: "R8T2bG4P2qs56btTPDeB29e52I6GMzAB")
 
                 print("\(codeString)     \(aes)    "  )
                 self.createQR1(codeString: aes!)
@@ -129,8 +133,8 @@ class MyCodeViewController: UIViewController {
         
         let qrImg = LBXScanWrapper.createCode(codeType: "CIQRCodeGenerator",codeString:codeString, size: qrImgView.bounds.size, qrColor: UIColor.black, bkColor: UIColor.white)
         
-        let logoImg = UIImage(named: "logo.JPG")
-        qrImgView.image = LBXScanWrapper.addImageLogo(srcImg: qrImg!, logoImg: logoImg!, logoSize: CGSize(width: 30, height: 30))
+        let logoImg =  UIImage(named: "")
+        qrImgView.image = LBXScanWrapper.addImageLogo(srcImg: qrImg!, logoImg: nil, logoSize: CGSize(width: 30, height: 30))
     }
     
     func createCode128()

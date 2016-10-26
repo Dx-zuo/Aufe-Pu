@@ -124,8 +124,9 @@ class UserTableViewController: UITableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             return
         case 3:
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Help")
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "about")
             self.navigationController?.pushViewController(vc, animated: true)
+            return
         default:
             print("")
         }

@@ -15,7 +15,7 @@ open class LBXScanViewController: UIViewController, UIImagePickerControllerDeleg
     
    open var scanObj: LBXScanWrapper?
     
-   open var scanStyle: LBXScanViewStyle = LBXScanViewStyle()
+   open var scanStyle: LBXScanViewStyle? = LBXScanViewStyle()
     
    open var qRScanView: LBXScanView?
     
@@ -74,7 +74,7 @@ open class LBXScanViewController: UIViewController, UIImagePickerControllerDeleg
             var cropRect = CGRect.zero
             if isOpenInterestRect
             {
-                cropRect = LBXScanView.getScanRectWithPreView(preView: self.view, style:scanStyle )
+                cropRect = LBXScanView.getScanRectWithPreView(preView: self.view, style:scanStyle! )
             }
             
             //识别各种码，
@@ -112,7 +112,7 @@ open class LBXScanViewController: UIViewController, UIImagePickerControllerDeleg
     {
         if qRScanView == nil
         {
-            qRScanView = LBXScanView(frame: self.view.frame,vstyle:scanStyle )
+            qRScanView = LBXScanView(frame: self.view.frame,vstyle:scanStyle! )
             self.view.addSubview(qRScanView!)
         }
         qRScanView?.deviceStartReadying(readyStr: "相机启动中...")

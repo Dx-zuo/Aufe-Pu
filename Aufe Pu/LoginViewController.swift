@@ -10,25 +10,57 @@ import UIKit
 import Alamofire
 import Ji
 import RKDropdownAlert
-
+import MBProgressHUD
 class LoginViewController: UIViewController {
+    @IBOutlet weak var LoginButton: UIButton!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var userpass: UITextField!
     @IBOutlet weak var Codetext: UITextField!
     @IBOutlet weak var CodeImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        ///LoginButton
+        LoginButton.layer.cornerRadius = 8
+        LoginButton.layer.masksToBounds = true
+        //username
+        
+        username.frame.size.height = 45
+        username.leftView = UIImageView(image: UIImage(named: "用户"))
+        username.leftViewMode = .always
+        username.layer.cornerRadius = 8
+        username.layer.masksToBounds = true
+        
+        //userpass
+
+        userpass.isSecureTextEntry = true
+        userpass.frame.size.height = 45
+        userpass.leftView = UIImageView(image: UIImage(named: "密码"))
+        userpass.leftViewMode = .always
+        userpass.layer.cornerRadius = 8
+        userpass.layer.masksToBounds = true
+        //view
         CodeImage.isUserInteractionEnabled = true
         CodeImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(Reimage)))
         username.text = "20140156"
         userpass.text = "960312"
         //
+        yzmini()
+    }
+    func yzmini() {
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+        hud.label.text = "正在登录中"
+        hud.animationType = .fade
         Alamofire.request("http://i.ancai.cc/StudentPC/Index/CheckCodeImg", method: .get)
             .responseData { (DataResponse) in
                 switch DataResponse.result {
                 case .success(let data):
+                    hud.hide(animated: false)
+
                     self.CodeImage.image = UIImage(data: data)
                 case .failure(let error):
+                    hud.hide(animated: false)
+                    RKDropdownAlert.title("", message: "网络错误无法访问网页")
                     NSLog("\(error.localizedDescription)")
                 }
         }

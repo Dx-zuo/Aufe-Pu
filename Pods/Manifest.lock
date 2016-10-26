@@ -1,13 +1,16 @@
 PODS:
+  - AES256CBC (1.1.1)
   - Alamofire (4.0.1)
   - DZNEmptyDataSet (1.8.1)
   - ESPullToRefresh (2.1)
-  - HYBImageCliped (2.0.0)
   - Ji (2.0.0):
     - Ji/Ji (= 2.0.0)
   - Ji/Ji (2.0.0):
     - Ji/Ji-libxml
   - Ji/Ji-libxml (2.0.0)
+  - JSPatchPlatform (1.6.2):
+    - JSPatchPlatform/Core (= 1.6.2)
+  - JSPatchPlatform/Core (1.6.2)
   - MBProgressHUD (1.0.0)
   - RKDropdownAlert (0.3.0)
   - swiftScan (1.0.8)
@@ -22,11 +25,12 @@ PODS:
     - YYImage
 
 DEPENDENCIES:
+  - AES256CBC
   - Alamofire
   - DZNEmptyDataSet
   - ESPullToRefresh
-  - HYBImageCliped (~> 2.0.0)
   - Ji (~> 2.0.0)
+  - JSPatchPlatform
   - MBProgressHUD (~> 1.0.0)
   - RKDropdownAlert
   - swiftScan (from `https://github.com/CNKCQ/swiftScan.git`, branch `Swift3.0`)
@@ -45,11 +49,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/CNKCQ/swiftScan.git
 
 SPEC CHECKSUMS:
+  AES256CBC: 22b584fbea28b46ab3c52d44213902ab5c6f801f
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   ESPullToRefresh: bb9e156053af3f7f8829c125b27ce00066372e30
-  HYBImageCliped: e660afad3daa5702c3afcaa2b6e9dc34497c333e
   Ji: 79e11b5256ee809f9f7e51dc7de2059e35adf7a6
+  JSPatchPlatform: 105e331f1b899a397d2bc0300a9ace9f9d7b8f08
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   RKDropdownAlert: f4b3364c251829ad439dc666836a1f2dad26f4c7
   swiftScan: 2dc76303bc7c2dcb7bde9c539f9bd6a7520abc8e
@@ -59,6 +64,6 @@ SPEC CHECKSUMS:
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: 39d2ae589a72431b983f5d5c6c4722bc6315f398
+PODFILE CHECKSUM: abe5d5533c8f56a878abe068b6a44db4439b5f19
 
 COCOAPODS: 1.1.0.beta.2

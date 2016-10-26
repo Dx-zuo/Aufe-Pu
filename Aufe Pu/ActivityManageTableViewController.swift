@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import Ji
 class ActivityManageTableViewController: UITableViewController{
+    static var activityID = ""
     struct Activity {
         var title : String = ""
         var date:String = ""
@@ -46,7 +47,6 @@ class ActivityManageTableViewController: UITableViewController{
     func modelparse(html:JiNode,id:Int) -> Activity {
         let title = html.xPath("//div[@style='white-space: initial']")[id].content
         let date = html.xPath("//p[@class='mui-ellipsis']")[id].content
-        
         if  Activitynum-1 >= id{
             let register = char(style: 1, text: html.descendantsWithName("button")[0]["onclick"]!)
             let petitioner : String = char(style: 2, text: html.descendantsWithName("button")[1]["onclick"]!)
@@ -63,8 +63,8 @@ class ActivityManageTableViewController: UITableViewController{
         switch style {
         case 1:
             let bb = text.components(separatedBy: CharacterSet(charactersIn: "("))
-            bb[1].components(separatedBy: CharacterSet(charactersIn: ","))
-            return bb[0]
+            let cc = bb[1].components(separatedBy: CharacterSet(charactersIn: ","))
+            return cc[0]
         case 2:
             let textt = text.components(separatedBy: CharacterSet(charactersIn: "'"))
             return textt[1]
@@ -114,7 +114,11 @@ class ActivityManageTableViewController: UITableViewController{
         return cell
     }
     func click(btn:UIButton){
-        print("二维码 点击")
+        let bb = ActivityModel[btn.tag].state.components(separatedBy: CharacterSet(charactersIn: "("))
+        let cc = bb[1].components(separatedBy: CharacterSet(charactersIn: ","))
+        
+        ActivityManageTableViewController.activityID = cc[0]
+        UserDefaults.standard.set(ActivityModel[btn.tag].register, forKey: "activityID")
         qqStyle()
     }
     func webtouch(btn:UIButton)  {
@@ -160,22 +164,23 @@ class ActivityManageTableViewController: UITableViewController{
     {
         
         let vc = QQScanViewController()
-        vc.scanStyle.isNeedShowRetangle = true
-        vc.scanStyle.whRatio = 1.0
-        vc.scanStyle.centerUpOffset = 44
-        vc.scanStyle.xScanRetangleOffset = 60
-        vc.scanStyle.colorRetangleLine = UIColor.white
-        vc.scanStyle.photoframeAngleStyle = .Outer
-        vc.scanStyle.colorAngle = UIColor(red: 0.0, green: 167.0/255.0, blue: 231.0/255.0, alpha: 1.0)
-        vc.scanStyle.photoframeAngleW = 24.0
-        vc.scanStyle.photoframeAngleH = 24
-        vc.scanStyle.photoframeLineW = 6
-        vc.scanStyle.anmiationStyle  = .LineMove
-        vc.scanStyle.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
-        vc.scanStyle.red_notRecoginitonArea    = 0.0
-        vc.scanStyle.green_notRecoginitonArea  = 0.0
-        vc.scanStyle.blue_notRecoginitonArea   = 0.0
-        vc.scanStyle.alpa_notRecoginitonArea   = 0.5
+        vc.scanStyle?.isNeedShowRetangle = true
+        vc.scanStyle?.whRatio = 1.0
+        vc.scanStyle?.centerUpOffset = 44
+        vc.scanStyle?.xScanRetangleOffset = 60
+        vc.scanStyle?.colorRetangleLine = UIColor.white
+        vc.scanStyle?.photoframeAngleStyle = .Outer
+        vc.scanStyle?.colorAngle = UIColor(red: 0.0, green: 167.0/255.0, blue: 231.0/255.0, alpha: 1.0)
+        vc.scanStyle?.photoframeAngleW = 24.0
+        vc.scanStyle?.photoframeAngleH = 24
+        vc.scanStyle?.photoframeLineW = 6
+        vc.scanStyle?.anmiationStyle  = .LineMove
+        vc.scanStyle?.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
+        vc.scanStyle?.red_notRecoginitonArea    = 0.0
+        vc.scanStyle?.green_notRecoginitonArea  = 0.0
+        vc.scanStyle?.blue_notRecoginitonArea   = 0.0
+        vc.scanStyle?.alpa_notRecoginitonArea   = 0.5
+        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

@@ -15,7 +15,7 @@ import AVFoundation
 import Photos
 import RKDropdownAlert
 class UserUIViewController: UIViewController ,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
-    
+    static var userimageback : UIImageView!
     @IBOutlet weak var TableBackView: UIView!
     @IBOutlet weak var UserImage: UIImageView!
     @IBOutlet weak var BackImage: UIImageView!
@@ -48,10 +48,10 @@ class UserUIViewController: UIViewController ,UIActionSheetDelegate,UIImagePicke
                         let Jidoc = Ji(htmlString: data)
                         let imagebackurl = Jidoc?.rootNode?.firstDescendantWithName("img")?["src"]
                         let staestyle = Jidoc?.rootNode?.descendantsWithAttributeName("class", attributeValue: "mui-navigate-right").count
-                        let Loginusername = Jidoc?.rootNode?.xPath("//div[@class='login_img']").first?.content
-                        
-                        if imagebackurl?.range(of: "UserImg")?.isEmpty == false{
+                        let Loginusername = Jidoc?.rootNode?.xPath("//div[@class='login_name']").first?.content?.trim()
                         self.Username.text = Loginusername
+
+                        if imagebackurl?.range(of: "UserImg")?.isEmpty == false{
                         self.UserImage.yy_setImage(with: NSURL(string:"http://i.ancai.cc\(imagebackurl!)") as URL?, options: YYWebImageOptions.progressiveBlur)
                             
                         }else{
@@ -64,12 +64,16 @@ class UserUIViewController: UIViewController ,UIActionSheetDelegate,UIImagePicke
                             }
                         
                         }
+                        if data.range(of: "http://i.ancai.cc/Content/StudentPC/Images/Student/photo.jpg")?.isEmpty == false {
+                        RKDropdownAlert.title("发现问题", message: "你还没有上传头像  请尽快上传 否则无法进行签到 ")
+                        
+                        }
                         var rightBarButtonItems: [UIBarButtonItem] = []
                         if staestyle == 7 {
 
                             rightBarButtonItems.append(UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(self.preview)))
                             rightBarButtonItems.append(UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(self.WEBpush)))
-                            rightBarButtonItems[0].image = UIImage(named: "鲜花")
+                            rightBarButtonItems[0].image = UIImage(named: "scan")
                             rightBarButtonItems[1].image = UIImage(named: "个性")
                             self.navigationItem.rightBarButtonItems = rightBarButtonItems
                         }

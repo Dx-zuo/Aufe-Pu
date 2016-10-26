@@ -9,9 +9,13 @@
 import UIKit
 import swiftScan
 import RKDropdownAlert
+import SwiftyJSON
+import Alamofire
+import AES256CBC
+
+
 class QQScanViewController: LBXScanViewController {
-    
-    
+
     /**
     @brief  扫码区域上方提示文字
     */
@@ -44,7 +48,7 @@ class QQScanViewController: LBXScanViewController {
         setNeedCodeImage(needCodeImg: true)
         
         //框向上移动10个像素
-        scanStyle.centerUpOffset += 10
+        scanStyle?.centerUpOffset += 10
  
         // Do any additional setup after loading the view.
     }
@@ -68,14 +72,108 @@ class QQScanViewController: LBXScanViewController {
         let result:LBXScanResult = arrayResult[0]
         
         
+        self.isOpenedFlash = true
+        self.startScan()
+        let concurrentQueue = DispatchQueue(label: "queuename", attributes: .concurrent)
         
-        RKDropdownAlert.title("\(result.strBarCodeType)", message: "\(result.strScanned)")
+        // 派发到刚创建的队列中，GCD 会负责进行线程调度
+        concurrentQueue.async {
+            
+            
+            self.getI(userid: result.strScanned!)
+
+        }
+
 //        let vc = ScanResultController()
 //        vc.codeResult = result
 //        navigationController?.pushViewController(vc, animated: true)
     }
+    func getI(userid:String){
+        
+        
+        
+        if userid.range(of: "=")?.isEmpty == false {
+            
+            let aes = AES256CBC.decryptString(userid, password: "R8T2bG4P2qs56btTPDeB29e52I6GMzAB")
+            print("解密后的  \(aes)")
+            
+            
+            getactivityID(userid: aes!)
+        
+        }
+        
+        
+        if userid.range(of: "=")?.isEmpty == nil {
+            
+            OriginalGet(strScanned: userid)
+
+        }
+
 
     
+    }
+    //原始获取方式  获取activityID 后执行新方式
+    func OriginalGet(strScanned:String) {
+        let activityID = ActivityManageTableViewController.activityID
+        NSLog("activityID      \(activityID)")
+        
+        Alamofire.request("http://i.ancai.cc/StudentWX/User/GetUserIDByEwm?activityID=\(JSON(activityID).stringValue)&ewm=\(strScanned)")
+        .responseString { (DataResponse) in
+            switch DataResponse.result{
+            case .success(let data):
+                
+                print("OriginalGet  \(DataResponse.request)")
+
+                let sunstring = JSON(data).rawString() as! NSString
+                if sunstring.substring(to: 7) == "success" {
+                   let a =  sunstring.components(separatedBy: CharacterSet(charactersIn: ":"))
+                    self.getactivityID(userid:a[1])
+                }else{
+                RKDropdownAlert.title("识别失败", message: "\(data)")
+                }
+            case .failure(let error):
+                NSLog("\(error.localizedDescription)")
+
+            }
+        }
+    }
+    //签到开始
+    func getactivityID(userid:String)  {
+        let activityID = ActivityManageTableViewController.activityID
+        Alamofire.request("http://i.ancai.cc/StudentWX/User/ActivityQd?activityID=\(JSON(activityID).stringValue)&userID=\(userid)")
+        .responseString { (DataResponse) in
+            switch DataResponse.result{
+            case .success(let DataResponseda):
+                print("\(DataResponseda)")
+                let data = JSON(DataResponseda).stringValue
+                
+                
+                
+                switch data {
+                case "权限不足":
+                    RKDropdownAlert.title("失败", message: "无权限")
+
+                case "该同学没有上传头像，不允许签到":
+                    RKDropdownAlert.title("失败", message: "该同学没有上传头像，不允许签到")
+
+                case "该同学已签到":
+                    RKDropdownAlert.title("失败", message: "该同学已签到")
+
+                case "success":
+                     RKDropdownAlert.title("成功", backgroundColor: UIColor(hue: 89.0/255.0, saturation: 83.0/255.0, brightness: 84.0/255.0, alpha: 1), textColor: UIColor.red)
+                default:
+                    RKDropdownAlert.title("失败", message: "不明原因 请联系开发者 \(data)")
+
+                
+                }
+                
+    
+
+            case .failure(let error):
+                RKDropdownAlert.title("网络连接失败  如微信可访问 请联系开发者 报告错误信息", message: "\(error.localizedDescription)")
+            }
+        }
+    }
     func drawBottomItems()
     {
         if (bottomItemsView != nil) {
@@ -144,9 +242,7 @@ class QQScanViewController: LBXScanViewController {
     
     func myCode()
     {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Web") as! WebViewController
-        vc.webID = "/StudentWX/User/MyEwm"
-        vc.Webtitle = "我的二维码"
+        let vc = MyCodeViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

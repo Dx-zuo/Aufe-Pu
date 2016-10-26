@@ -10,7 +10,6 @@
 #define Aufe_Pu_Bridging_Header_h
 #import <tingyunApp/NBSAppAgent.h>
 #import "JXTAlertView.h"
-#import "JXTAlertViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 
 #endif /* Aufe_Pu_Bridging_Header_h */
