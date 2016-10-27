@@ -41,8 +41,7 @@ class LoginViewController: UIViewController {
         //view
         CodeImage.isUserInteractionEnabled = true
         CodeImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(Reimage)))
-        username.text = "20140156"
-        userpass.text = "960312"
+
         //
         yzmini()
     }
