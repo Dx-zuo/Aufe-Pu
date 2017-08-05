@@ -40,11 +40,12 @@ class UserUIViewController: UIViewController ,UIActionSheetDelegate,UIImagePicke
         DispatchQueue.global().async {
             
             DispatchQueue.main.async {
-        Alamofire.request("http://i.ancai.cc/Studentwx/")
+        Alamofire.request("http://i.ancai.cc/StudentWX/User/UserCenter")
             .validate()
                 .responseString { (DataResponse) in
                     switch DataResponse.result {
                     case .success(let data):
+                        NSLog("Studentwx:", data)
                         let Jidoc = Ji(htmlString: data)
                         let imagebackurl = Jidoc?.rootNode?.firstDescendantWithName("img")?["src"]
                         let staestyle = Jidoc?.rootNode?.descendantsWithAttributeName("class", attributeValue: "mui-navigate-right").count

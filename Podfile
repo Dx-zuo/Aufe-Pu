@@ -10,12 +10,10 @@ target 'Aufe Pu' do
     pod 'SwiftyJSON'
     pod 'Ji', '~> 2.0.0'
     pod 'swiftScan', :git => 'https://github.com/CNKCQ/swiftScan.git', :branch => 'Swift3.0'
-    pod "ESPullToRefresh"
+    pod 'ESPullToRefresh'
     pod 'AES256CBC'
 
     #OC 库
-    pod 'JSPatchPlatform'
-
     pod 'MBProgressHUD', '~> 1.0.0'
     pod 'RKDropdownAlert'
     pod 'YYWebImage'

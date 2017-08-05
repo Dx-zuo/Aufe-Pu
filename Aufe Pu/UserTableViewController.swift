@@ -89,7 +89,9 @@ class UserTableViewController: UITableViewController {
     }
  
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        print(indexPath.section)
+        print(indexPath.count)
+
         tableView.deselectRow(at: indexPath, animated: true)
         var ID : String = ""
         var Titlee :String = ""
@@ -124,8 +126,8 @@ class UserTableViewController: UITableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
             return
         case 3:
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "about")
-            self.navigationController?.pushViewController(vc, animated: true)
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "About")
+                self.navigationController?.pushViewController(vc, animated: true)
             return
         default:
             print("")

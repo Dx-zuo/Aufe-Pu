@@ -9,4 +9,6 @@
 import Foundation
 class AppsConf : NSObject {
     static let Puurl = "http://i.ancai.cc/"
+    static var ApiURl = "http://i.ancai.cc/StudentWX/Index/ActivityList"
+
 }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JSPatchPlatform
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,8 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        JSPatch.start(withAppKey: "fefc554d78e5d9fa")
-        JSPatch.sync()
         NBSAppAgent.start(withAppID: "5a48bb8030bd424eb81bc97ad2861eb6")
         
         if UserDefaults.standard.object(forKey: "Username") != nil {

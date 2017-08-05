@@ -32,7 +32,6 @@ class HomeTableViewController: UITableViewController,DZNEmptyDataSetSource,DZNEm
     let PullToRefreshString = "Pull to Refresh"
     let FetchErrorMessage = "Could Not Fetch Posts"
     var AnyTop : Int = 100
-    var ApiURl = "http://i.ancai.cc/StudentWX/Index/ActivityList"
     var pageIndex :Int = 1
     let StoryLimit: UInt = 30
     var retrievingStories: Bool!
@@ -93,10 +92,12 @@ class HomeTableViewController: UITableViewController,DZNEmptyDataSetSource,DZNEm
         DispatchQueue.global().async {
             
             DispatchQueue.main.async {
-        let url = "\(self.ApiURl)?pageIndex=\(pageIndexID)"
+        let url = "\(AppsConf.ApiURl)?pageIndex=\(pageIndexID)"
+//        print("下一页网址:\(url)")
         Alamofire.request(url).responseString { (DataResponse) in
             switch DataResponse.result{
             case .success(let data):
+//                print("解析下一页:\(data)")
                 let Dochtml = HomeModel.parseHomeModel(netData: data)
                 var storiesMap = [Int:Story]()
                 var sortedStories = [Story]()
@@ -127,10 +128,13 @@ class HomeTableViewController: UITableViewController,DZNEmptyDataSetSource,DZNEm
         hud.detailsLabelText = "正在加载和解析页面 请稍等"
         hud.dimBackground = true
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let URL = "\(ApiURl)\(AnyTop)"
-        Alamofire.request(ApiURl).responseString { (DataResponse) in
+        let URL = "\(AppsConf.ApiURl)\(AnyTop)"
+//        print("下一页网址:\(AppsConf.ApiURl)")
+
+        Alamofire.request(AppsConf.ApiURl).responseString { (DataResponse) in
             switch DataResponse.result{
             case .success(let data):
+//                print("返回的数据:\(data)")
                 let Dochtml = HomeModel.parseHomeModel(netData: data)
                 var storiesMap = [Int:Story]()
                 var sortedStories = [Story]()
@@ -205,10 +209,13 @@ class HomeTableViewController: UITableViewController,DZNEmptyDataSetSource,DZNEm
         return (ActivityDate as NSString).substring(to: 9)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.hidesBottomBarWhenPushed = true
         tableView.deselectRow(at: indexPath, animated: true)
         let story = stories[(indexPath as NSIndexPath).row]
         let arr = ["ID":story.ID,"Title":story.Title] as [String : Any]
         self.performSegue(withIdentifier: "Webid", sender: arr)
+        self.hidesBottomBarWhenPushed = false
+
         }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Webid"{
@@ -219,21 +226,19 @@ class HomeTableViewController: UITableViewController,DZNEmptyDataSetSource,DZNEm
         }else{
             if segue.identifier == "searchid"{
                 let vc = segue.destination as! WebViewController
-                vc.hidesBottomBarWhenPushed = true
                 vc.webID = "/StudentWX/Index/ActivityList?key=1111"
                 vc.Webtitle = "搜索"
-            
             }
         }
         
     }
     func segmentDidchange(segmented:UISegmentedControl){
         if segmented.selectedSegmentIndex == 1 {
-            ApiURl = "http://i.ancai.cc/StudentWX/Index/ZyActivityList"
+            AppsConf.ApiURl = "http://i.ancai.cc/StudentWX/Index/ZyActivityList"
             stories.removeAll()
             retrieveStories()
         }else{
-            ApiURl = "http://i.ancai.cc/StudentWX/Index/ActivityList"
+            AppsConf.ApiURl = "http://i.ancai.cc/StudentWX/Index/ActivityList"
             stories.removeAll()
             retrieveStories()
             

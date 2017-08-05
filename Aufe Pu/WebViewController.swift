@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+
 class WebViewController: UIViewController,WKNavigationDelegate{
     var webID : String = ""
     var webview : WKWebView!
@@ -34,15 +35,17 @@ class WebViewController: UIViewController,WKNavigationDelegate{
             
             // Configure the WKWebViewConfiguration instance with the WKUserContentController
             webCfg.userContentController = userController;
-            
             return webCfg;
         }
         
         
     }
+//    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//        let data = navigationAction.request.url?.absoluteString
+//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.title = Webtitle
         print(UserDefaults.standard.object(forKey: "Cookies") as! String )
         cookieValue = UserDefaults.standard.object(forKey: "Cookies") as! String
@@ -55,11 +58,8 @@ class WebViewController: UIViewController,WKNavigationDelegate{
             let request = NSMutableURLRequest(url: url as URL)
 //            setupCookies()
             request.addValue("\(cookieKey)=\(cookieValue)", forHTTPHeaderField: "Cookie")
-            
             self.webview.load(request as URLRequest)
-            
         }
-
         progBar = UIProgressView(frame: CGRect(x: 0, y: (self.navigationController?.navigationBar.frame.maxY)!, width: self.view.frame.width, height: 30))
         progBar.progress = 0.0
         progBar.tintColor = UIColor.red
@@ -67,9 +67,16 @@ class WebViewController: UIViewController,WKNavigationDelegate{
         self.webview.addObserver(self, forKeyPath: "estimatedProgress", options: NSKeyValueObservingOptions.new, context: nil)
 
     }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        let js = "var el = document.getElementsByTagName(\"header\")[0]; if (el) el.parentNode.removeChild(el);"
+        webView.evaluateJavaScript(js) { (response, error) in
+            print(error)
+        }
+    }
     override func viewWillDisappear(_ animated: Bool) {
         webview.removeObserver(self, forKeyPath: "estimatedProgress")
     }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "estimatedProgress" {
             self.progBar.alpha = 1.0
